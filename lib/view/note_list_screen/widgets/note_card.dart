@@ -11,6 +11,7 @@ class NoteCard extends StatelessWidget {
       this.onDelete,
       this.onEdit,
       this.onShare});
+
   final String title;
   final String description;
   final String date;
@@ -43,9 +44,7 @@ class NoteCard extends StatelessWidget {
               Spacer(),
 //delete
               IconButton(
-                  onPressed: () {
-                    onDelete;
-                  },
+                  onPressed: onDelete,
                   icon: Icon(
                     Icons.delete,
                     color: Colors.black,
@@ -55,9 +54,7 @@ class NoteCard extends StatelessWidget {
               ),
 //edit
               IconButton(
-                  onPressed: () {
-                    onEdit;
-                  },
+                  onPressed: onEdit,
                   icon: Icon(
                     Icons.edit,
                     color: Colors.black,
@@ -81,9 +78,7 @@ class NoteCard extends StatelessWidget {
               Spacer(),
 //share
               IconButton(
-                  onPressed: () {
-                    onShare;
-                  },
+                  onPressed: onShare,
                   icon: Icon(
                     Icons.share,
                     color: Colors.black,
