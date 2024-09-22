@@ -10,11 +10,14 @@ class NoteCard extends StatelessWidget {
       required this.date,
       this.onDelete,
       this.onEdit,
-      this.onShare});
+      this.onShare, 
+      required this.cardColor});
 
   final String title;
   final String description;
   final String date;
+
+  final Color cardColor;
 
   final void Function()? onDelete;
   final void Function()? onShare;
@@ -28,7 +31,7 @@ class NoteCard extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           // color: Color(0xFF607D8B)
-          color: Colors.blueGrey),
+          color:cardColor,), //Colors.blueGrey),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

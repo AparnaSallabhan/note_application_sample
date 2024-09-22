@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:note_application_sample/dummy_db.dart';
+import 'package:note_application_sample/utils/color_constants.dart';
 import 'package:note_application_sample/view/note_list_screen/widgets/note_card.dart';
 
 class NoteListScreen extends StatefulWidget {
@@ -15,6 +16,17 @@ class _NoteListScreenState extends State<NoteListScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+
+  List noteColors = [
+     ColorConstants.teal,
+    ColorConstants.mauve,
+    ColorConstants.olive,
+    ColorConstants.purple,
+    ColorConstants.taupe,
+   
+  ];
+  int selectedColorIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +36,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
           title: DummyDb.notesList[index]["title"],
           description: DummyDb.notesList[index]["description"],
           date: DummyDb.notesList[index]["date"],
-          
+          cardColor:noteColors[DummyDb.notesList[index]["colorIndex"]] ,
           //fn of delete button
           onDelete: () {
             DummyDb.notesList.removeAt(index);
@@ -130,6 +142,39 @@ class _NoteListScreenState extends State<NoteListScreen> {
                   SizedBox(
                     height: 15,
                   ),
+//colorPalette
+                  StatefulBuilder(builder: (context, colorSetState) =>Row(
+                    children: List.generate(
+                      noteColors.length, 
+                      (index) => Expanded(
+                        child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 2),                         
+                          child: InkWell(
+                            onTap: () {
+                              selectedColorIndex = index;
+                              colorSetState(() {});
+                            },
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: noteColors[index],
+                                border: Border.all(
+                                  color: selectedColorIndex==index? Colors.black : Colors.white,
+                                  width: 3
+                                )
+                              ),
+                              child:selectedColorIndex == index? Icon(Icons.check): null,
+                            ),
+                          ),
+                        ),
+                      ),),
+                  ), ),
+                  
+                   SizedBox(
+                    height: 15,
+                  ),
                   Row(
                     children: [
 //save
@@ -140,16 +185,18 @@ class _NoteListScreenState extends State<NoteListScreen> {
                               DummyDb.notesList[index!]= {
                               "title": titleController.text,
                               "description": descriptionController.text,
-                              "date": dateController.text
-                            };
+                              "date": dateController.text,
+                              "colorIndex" : selectedColorIndex
+                            };//editing a note
                             }
                             else
                            { 
                             DummyDb.notesList.add({
                               "title": titleController.text,
                               "description": descriptionController.text,
-                              "date": dateController.text
-                            });
+                              "date": dateController.text,
+                              "colorIndex" : selectedColorIndex
+                            });//adding a note
                             }
                             Navigator.pop(context); //to pop bottomsheet on pressing save button
                             setState(() {});
